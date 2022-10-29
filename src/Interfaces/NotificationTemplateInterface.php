@@ -9,4 +9,8 @@ interface NotificationTemplateInterface
     public function getSubject(): string;
 
     public function getTemplate(): string;
+
+    public function isSimpleMessage(): bool;
+
+    public function getSimpleMessageData(): array;
 }

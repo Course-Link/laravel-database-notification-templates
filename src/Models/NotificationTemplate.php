@@ -42,4 +42,24 @@ class NotificationTemplate extends Model implements NotificationTemplateInterfac
     {
         return $this->template;
     }
+
+    public function isSimpleMessage(): bool
+    {
+        return isset($this->template);
+    }
+
+    public function getSimpleMessageData(): array
+    {
+        return [
+            'level' => $this->level,
+            'subject' => $this->subject,
+            'greeting' => $this->greeting,
+            'salutation' => $this->salutation,
+            'introLines' => $this->intro_lines,
+            'outroLines' => $this->outro_lines,
+            'actionText' => $this->action_text,
+            'actionUrl' => $this->action_url,
+            'displayableActionUrl' => str_replace(['mailto:', 'tel:'], '', $this->actionUrl ?? ''),
+        ];
+    }
 }
