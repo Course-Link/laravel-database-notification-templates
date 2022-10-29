@@ -18,7 +18,6 @@ class InvoicePaid extends Notification
 
     public function toMail($notifiable): NotificationTemplateMessage
     {
-        return (new NotificationTemplateMessage())
-            ->type($this->getTemplate());
+        return (new NotificationTemplateMessage($this->getTemplate()));
     }
 }

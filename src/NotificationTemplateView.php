@@ -5,9 +5,7 @@ namespace DH\NotificationTemplates;
 use ArrayAccess;
 use Composer\Autoload\ClassLoader;
 use DH\NotificationTemplates\Interfaces\NotificationTemplateInterface;
-use DH\NotificationTemplates\Models\NotificationTemplate;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Composer;
 use Illuminate\Support\HtmlString;
 use Illuminate\View\View;
 use Illuminate\View\Factory;
@@ -17,7 +15,14 @@ class NotificationTemplateView extends View implements ArrayAccess, Renderable
 {
     protected string $theme = 'default';
 
-    protected array $componentPaths = [];
+    public function __construct(Factory $factory, NotificationTemplateCompilerEngine $engine)
+    {
+        $this->engine = $engine;
+        $this->factory = $factory;
+        $this->factory->replaceNamespace(
+            'mail', $this->htmlComponentPaths()
+        );
+    }
 
     protected function getVendorPath(): string
     {
@@ -40,15 +45,6 @@ class NotificationTemplateView extends View implements ArrayAccess, Renderable
         return array_map(function ($path) {
             return $this->getVendorPath() . '/laravel/framework/src/Illuminate/Mail/resources/views/html';
         }, $this->componentPaths());
-    }
-
-    public function __construct(NotificationTemplateCompilerEngine $engine, Factory $view)
-    {
-        $this->engine = $engine;
-        $this->factory = $view;
-        $this->factory->replaceNamespace(
-            'mail', $this->htmlComponentPaths()
-        );
     }
 
     public function make(NotificationTemplateInterface $message, $data = [], $mergeData = [], $content_field = null): self

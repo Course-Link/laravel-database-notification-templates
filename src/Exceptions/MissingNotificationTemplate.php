@@ -11,6 +11,6 @@ class MissingNotificationTemplate extends Exception
     {
         $notificationClass = class_basename($notification);
 
-        return new static("No mail template exists for mailable `{$notificationClass}`.");
+        return new static("No notification template exists for mailable `{$notificationClass}`.");
     }
 }

@@ -2,6 +2,7 @@
 
 namespace DH\NotificationTemplates;
 
+use DH\NotificationTemplates\Interfaces\NotificationTemplateInterface;
 use Illuminate\Contracts\Mail\Factory as MailFactory;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Mail\Markdown;
@@ -46,7 +47,7 @@ class NotificationTemplateChannel extends MailChannel
     public function buildView($message)
     {
         return [
-            'html' => $this->view->make($message, $message->data())->render(),
+            'html' => $this->view->make($message->template, $message->data())->render(),
             'text' => $this->markdown->renderText($message->markdown, $message->data()),
         ];
     }
