@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\NotificationTemplates\Tests\stubs\Notifiable;
+namespace CourseLink\NotificationTemplates\Tests\Stubs\Notifiable;
 
 use Illuminate\Notifications\Notifiable;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\NotificationTemplates\Exceptions;
+namespace CourseLink\NotificationTemplates\Exceptions;
 
 use Exception;
 use Illuminate\Notifications\Notification;

@@ -1,4 +1,6 @@
-# Render Laravel notifications based on a template stored in the database
+# Laravel Database Notification Templates
+
+Render Laravel notifications based on a template stored in the database
 
 ## Credits
 
