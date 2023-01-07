@@ -1,13 +1,18 @@
 <?php
 
-namespace DH\NotificationTemplates\Models;
+namespace CourseLink\NotificationTemplates\Models;
 
-use DH\NotificationTemplates\Exceptions\MissingNotificationTemplate;
-use DH\NotificationTemplates\Interfaces\NotificationTemplateInterface;
+use CourseLink\NotificationTemplates\Exceptions\MissingNotificationTemplate;
+use CourseLink\NotificationTemplates\Interfaces\NotificationTemplateInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
 
+/**
+ * @property string $notification
+ * @property string $subject
+ * @property string $template
+ */
 class NotificationTemplate extends Model implements NotificationTemplateInterface
 {
     protected $guarded = [];

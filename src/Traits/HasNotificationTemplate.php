@@ -1,11 +1,15 @@
 <?php
 
-namespace DH\NotificationTemplates\Traits;
+namespace CourseLink\NotificationTemplates\Traits;
 
-use DH\NotificationTemplates\Models\NotificationTemplate;
+use CourseLink\NotificationTemplates\Exceptions\MissingNotificationTemplate;
+use CourseLink\NotificationTemplates\Models\NotificationTemplate;
 
 trait HasNotificationTemplate
 {
+    /**
+     * @throws MissingNotificationTemplate
+     */
     public function getTemplate()
     {
         return NotificationTemplate::findForNotification($this);

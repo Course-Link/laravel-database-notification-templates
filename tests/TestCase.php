@@ -1,9 +1,9 @@
 <?php
 
-namespace DH\NotificationTemplates\Tests;
+namespace CourseLink\NotificationTemplates\Tests;
 
-use DH\NotificationTemplates\Models\NotificationTemplate;
-use DH\NotificationTemplates\NotificationTemplatesServiceProvider;
+use CourseLink\NotificationTemplates\Models\NotificationTemplate;
+use CourseLink\NotificationTemplates\NotificationTemplatesServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
@@ -37,7 +37,8 @@ class TestCase extends OrchestraTestCase
 
         return $notificationTemplate::create(array_merge([
             'notification' => $notification,
-            'template' => file_get_contents(__DIR__ . '/stubs/Templates/invoice.blade.php'),
+            'subject' => class_basename($notification),
+            'template' => file_get_contents(__DIR__ . '/Stubs/Templates/invoice.blade.php'),
         ], $attributes));
     }
 }

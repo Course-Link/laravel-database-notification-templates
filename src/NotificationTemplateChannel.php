@@ -1,31 +1,37 @@
 <?php
 
-namespace DH\NotificationTemplates;
+namespace CourseLink\NotificationTemplates;
 
-use DH\NotificationTemplates\Interfaces\NotificationTemplateInterface;
+use CourseLink\NotificationTemplates\Exceptions\InvalidNotification;
+use CourseLink\NotificationTemplates\Interfaces\HasNotificationTemplateInterface;
 use Illuminate\Contracts\Mail\Factory as MailFactory;
 use Illuminate\Contracts\Mail\Mailable;
-use Illuminate\Mail\Markdown;
+use Illuminate\Mail\SentMessage;
 use Illuminate\Notifications\Channels\MailChannel;
 use Illuminate\Notifications\Notification;
 
 class NotificationTemplateChannel extends MailChannel
 {
-    protected NotificationTemplateView $view;
-
     public function __construct(
-        MailFactory              $mailer,
-        Markdown                 $markdown,
-        NotificationTemplateView $view
+        MailFactory                  $mailer,
+        NotificationTemplateMarkdown $markdown,
     )
     {
-        $this->view = $view;
-
         parent::__construct($mailer, $markdown);
     }
 
+    /**
+     * @param mixed $notifiable
+     * @param Notification $notification
+     * @return SentMessage|null
+     * @throws InvalidNotification
+     */
     public function send($notifiable, Notification $notification)
     {
+        if (!($notification instanceof HasNotificationTemplateInterface)) {
+            throw new InvalidNotification;
+        }
+
         $message = $notification->toMail($notifiable);
 
         if ($message instanceof Mailable) {
@@ -37,17 +43,18 @@ class NotificationTemplateChannel extends MailChannel
             array_merge($message->data(), $this->additionalMessageData($notification)),
             $this->messageBuilder($notifiable, $notification, $message)
         );
+
+        return null;
     }
 
     /**
      * @param NotificationTemplateMessage $message
      * @return array
-     * @throws \Throwable
      */
-    public function buildView($message)
+    public function buildView($message): array
     {
         return [
-            'html' => $this->view->make($message->template, $message->data())->render(),
+            'html' => $this->markdown->render($message->notificationTemplate->getTemplate(), $message->data()),
             'text' => $this->markdown->renderText($message->markdown, $message->data()),
         ];
     }

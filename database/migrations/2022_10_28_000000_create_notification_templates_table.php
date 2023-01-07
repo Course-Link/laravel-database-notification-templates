@@ -9,9 +9,12 @@ return new class extends Migration {
     {
         Schema::create('notification_templates', function (Blueprint $table) {
             $table->id();
+
             $table->string('notification');
+            $table->boolean('active')->default(true);
             $table->text('subject')->nullable();
             $table->longText('template')->nullable();
+
             $table->timestamps();
         });
     }

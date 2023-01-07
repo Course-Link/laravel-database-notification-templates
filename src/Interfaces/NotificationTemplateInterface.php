@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\NotificationTemplates\Interfaces;
+namespace CourseLink\NotificationTemplates\Interfaces;
 
 interface NotificationTemplateInterface
 {

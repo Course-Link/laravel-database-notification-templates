@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\NotificationTemplates;
+namespace CourseLink\NotificationTemplates;
 
 use Illuminate\Support\ServiceProvider;
 

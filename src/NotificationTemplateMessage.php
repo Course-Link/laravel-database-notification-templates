@@ -1,29 +1,35 @@
 <?php
 
-namespace DH\NotificationTemplates;
+namespace CourseLink\NotificationTemplates;
 
-use DH\NotificationTemplates\Interfaces\NotificationTemplateInterface;
+use CourseLink\NotificationTemplates\Exceptions\MissingNotificationTemplate;
+use CourseLink\NotificationTemplates\Interfaces\NotificationTemplateInterface;
 use Illuminate\Container\Container;
 use Illuminate\Mail\Markdown;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\HtmlString;
 
 class NotificationTemplateMessage extends MailMessage
 {
-    public function __construct(
-        public readonly NotificationTemplateInterface $template)
+    public $view;
+    public $markdown = 'notifications::email';
+    public NotificationTemplateInterface $notificationTemplate;
+    public $viewData = [];
+
+    public function notificationTemplate(NotificationTemplateInterface $template, array $data = []): self
     {
+        $this->notificationTemplate = $template;
+        $this->subject = $template->getSubject();
+        $this->viewData = $data;
+
+        return $this;
     }
 
-    public function render()
+    public function render(): HtmlString
     {
-        if ($this->template->getTemplate()) {
-            $view = Container::getInstance()->make(NotificationTemplateView::class);
-            return $view->make($this->template, $this->data())->render();
-        }
+        /** @var NotificationTemplateMarkdown $markdown */
+        $markdown = app(NotificationTemplateMarkdown::class);
 
-        $markdown = Container::getInstance()->make(Markdown::class);
-
-        return $markdown->theme($this->theme ?: $markdown->getTheme())
-            ->render($this->markdown, $this->data());
+        return $markdown->render($this->notificationTemplate->getTemplate(), $this->data());
     }
 }
