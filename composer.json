@@ -40,7 +40,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "NotificationTemplatesServiceProvider"
+        "CourseLink\\NotificationTemplates\\NotificationTemplatesServiceProvider"
       ]
     }
   }
