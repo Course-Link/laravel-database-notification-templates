@@ -9,5 +9,8 @@ You can support them by [buying one of them awesome products](https://spatie.be/
 
 ## Installation
 
-## Example
+```bash
+composer require course-link/laravel-database-notification-templates
+```
 
+## Example
